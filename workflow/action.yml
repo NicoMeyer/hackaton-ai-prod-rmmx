@@ -38,7 +38,7 @@ runs:
   args:
     - ${{ inputs.openai-api-key }}
     - ${{ inputs.github-token }}
-    - ${{ github.event.number }}
+    - ${{ inputs.github-pr-id }}
     - ${{ inputs.dev-lang }}
     - ${{ inputs.openai-engine }}
     - ${{ inputs.openai-temperature }}
