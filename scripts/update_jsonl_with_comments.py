@@ -9,7 +9,7 @@ PR_NUMBER = os.getenv("PR_NUMBER")
 REPO_NAME = 'NicoMeyer/hackaton-ai-prod-rmmx'
 
 # Archivo JSONL donde se guardarán los comentarios
-JSONL_FILE = "comments.jsonl"
+JSONL_FILE = "hackaton/comments.jsonl"
 
 # API URL para obtener los comentarios del PR
 API_URL = f"https://api.github.com/repos/{REPO_NAME}/pulls/{PR_NUMBER}/comments"
