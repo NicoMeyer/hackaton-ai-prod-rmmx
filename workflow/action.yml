@@ -17,7 +17,7 @@ inputs:
     required: true
     default: ''
   dev-lang:
-    description: 'Development language used in this request'
+    description: 'ruby on rails'
     required: true
     default: ''
   openai-engine:

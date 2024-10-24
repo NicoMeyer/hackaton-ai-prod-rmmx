@@ -1,9 +1,13 @@
 name: ChatGPT Code Review
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   pull_request:
     branches: [ "main", "develop" ]
-    types: [ opened, synchronized ]
+    types: [ opened, synchronize ]
 
   workflow_dispatch:
 
@@ -13,7 +17,7 @@ jobs:
     name: ChatGPT reviewer
     steps:
       - name: ChatGPT reviewer code
-        uses: fitomad/github-chatgpt-integration@main
+        uses: NicoMeyer/hackaton-ai-prod-rmmx/workflow@main
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           github-token: ${{ secrets.GH_TOKEN }}
