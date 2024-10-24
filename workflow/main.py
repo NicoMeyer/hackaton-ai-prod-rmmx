@@ -9,6 +9,20 @@ from github import Github, PullRequest
 github_client: Github
 parameters: dict
 
+def prompt_ia():
+    prompt = f"Tienes que realizar el code review de un Pull Request para una webapp. Tu enfoque debe ser analizar los cambios en los archivos proporcionados. A continuación te detallo el proceso:
+    Archivos a revisar: Recibirás dos archivos. Uno con los cambios realizados y otro sin cambios. Concéntrate únicamente en las diferencias (diff) entre ambos.
+    Entrega de feedback: Debes partir agregando tus propuestas como sugerencias de codigo a cambiar y termina con un breve resumen sin pasar punto por punto de los criterios. Es prioritario que tus respuestas deben ser breves, concisas y enfocarse en los puntos de mejora sin sobrepasar en el resumen sobre 500 caracteres.
+    Claridad: El código debe ser fácil de leer. Asegúrate de que las variables y funciones tengan nombres autodescriptivos y evita malas prácticas. Los métodos deben seguir el principio de responsabilidad única. La estructura de control de recursos debe ser sencilla, evitando problemas como deadlocks.
+    Correctitud: El código debe hacer lo que se espera. No sirve de nada si es rápido pero no cumple con su propósito.
+    Eficiencia: Una vez que el código sea claro y correcto, revisa si es eficiente. Evita algoritmos con complejidad excesiva como O(n^3) y ejecución de queries con n+1.
+    Flexibilidad: Revisa si el código es desacoplado y flexible. Puede ser útil para futuros cambios.
+    Seguridad: Finalmente, asegúrate de que el código no tenga vulnerabilidades, como SQL Injection o uso de variables de ambiente.
+    Guía de estilo: Al revisar el código, sigue los principios SOLID y guíate por las guidelines de Shopify. 
+    Contamos con herramientas automáticas como RuboCop para validar el código, pero tu análisis debe ser manual y detallado. Puedes consultar las guidelines de estilo aquí: https://ruby-style-guide.shopify.dev/"
+
+    return prompt
+
 def code_review(parameters: dict):
     repo = github_client.get_repo(os.getenv('GITHUB_REPOSITORY'))   
     pull_request = repo.get_pull(parameters["pr_id"])
@@ -50,7 +64,8 @@ def code_review(parameters: dict):
                 pull_request.create_issue_comment(message)
 
 def make_prompt() -> str:
-    review_prompt = load_prompt_from_yaml('./parameters.yml')
+    # review_prompt = load_prompt_from_yaml('./parameters.yml')
+    review_prompt = prompt_ia
 
     return review_prompt
 
