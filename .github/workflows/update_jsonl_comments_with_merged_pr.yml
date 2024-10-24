@@ -30,6 +30,16 @@ jobs:
         run: |
           python scripts/update_jsonl_with_comments.py
 
+      - name: Verify and display comments.jsonl content
+        run: |
+          if [ -f hackaton/comments.jsonl ]; then
+            echo "File exists. Displaying contents:"
+            cat hackaton/comments.jsonl
+          else
+            echo "File hackaton/comments.jsonl does not exist!"
+            exit 1
+          fi
+          
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
