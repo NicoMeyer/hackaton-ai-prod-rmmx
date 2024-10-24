@@ -1,0 +1,16 @@
+<h1>Liquidation for <%= @liquidation.employee_name %></h1>
+
+<p>
+  <strong>Base Salary:</strong>
+  <%= @liquidation.base_salary %>
+</p>
+
+<p>
+  <strong>Bonus Amount:</strong>
+  <%= @liquidation.bonus_amount || 'No bonus assigned' %>
+</p>
+
+<p>
+  <strong>Total Salary:</strong>
+  <%= @liquidation.total_salary %>
+</p>
