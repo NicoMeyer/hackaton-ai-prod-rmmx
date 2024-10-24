@@ -4,9 +4,9 @@ import json
 import pdb
 
 # Variables necesarias para la autenticación y el acceso
-GITHUB_TOKEN = os.getenv("GH_TOKEN")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+PR_NUMBER = os.getenv("PR_NUMBER")
 REPO_NAME = 'NicoMeyer/hackaton-ai-prod-rmmx'
-PR_NUMBER = github.event.pull_request.number
 
 # Archivo JSONL donde se guardarán los comentarios
 JSONL_FILE = "comments.jsonl"
