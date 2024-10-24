@@ -23,6 +23,8 @@ def get_pr_comments():
     response = requests.get(API_URL, headers=headers)
     
     if response.status_code == 200:
+        print(response.json())
+        
         return response.json()
     else:
         print(f"Error al obtener los comentarios: {response.status_code}")
