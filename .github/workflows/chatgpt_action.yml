@@ -17,7 +17,7 @@ jobs:
     name: ChatGPT reviewer
     steps:
       - name: ChatGPT reviewer code
-        uses: NicoMeyer/hackaton-ai-prod-rmmx@main
+        uses: NicoMeyer/hackaton-ai-prod-rmmx/workflows@main
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           github-token: ${{ secrets.GH_TOKEN }}
