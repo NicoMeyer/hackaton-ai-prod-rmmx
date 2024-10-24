@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [closed]  # Se ejecuta cuando un PR es cerrado
 
+permissions:
+  contents: write
+
 jobs:
   analyze_comments:
     runs-on: ubuntu-latest
