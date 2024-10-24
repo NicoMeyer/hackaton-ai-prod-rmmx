@@ -1,0 +1,53 @@
+name: Analyze PR Comments on Merge
+
+on:
+  pull_request:
+    types: [closed]  # Se ejecuta cuando un PR es cerrado
+
+permissions:
+  contents: write
+
+jobs:
+  analyze_comments:
+    runs-on: ubuntu-latest
+
+    if: github.event.pull_request.merged == true  # Solo si el PR fue mergeado
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install requests pyyaml
+
+      - name: Analyze PR comments
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          python scripts/update_jsonl_with_comments.py
+
+      - name: Verify and display comments.jsonl content
+        run: |
+          if [ -f hackaton/comments.jsonl ]; then
+            echo "File exists. Displaying contents:"
+            cat hackaton/comments.jsonl
+          else
+            echo "File hackaton/comments.jsonl does not exist!"
+            exit 1
+          fi
+          
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "daquiroz"
+          git config --global user.email "daquiroz.o@gmail.com"
+          git add hackaton/comments.jsonl
+          git commit -m "Update comments.jsonl with PR #${{ github.event.pull_request.number }} comments"
+          git push
+

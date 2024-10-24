@@ -3,13 +3,14 @@ import openai
 import os
 import requests
 import yaml
+import random
 from github import Github, PullRequest
 
 github_client: Github
 parameters: dict
 
 def code_review(parameters: dict):
-    repo = github_client.get_repo(os.getenv('GITHUB_REPOSITORY'))
+    repo = github_client.get_repo(os.getenv('GITHUB_REPOSITORY'))   
     pull_request = repo.get_pull(parameters["pr_id"])
 
     resume = make_resume_for_pull_request(pr=pull_request)
@@ -35,7 +36,14 @@ def code_review(parameters: dict):
                     ],
                     temperature=parameters['temperature']
                 )
-
+                
+                pull_request.create_review_comment(
+                    body = "Este es un comentario automático en una línea específica del PR.",
+                    commit_id = commit.sha,
+                    path = file.filename,
+                    position = random.randint(1, len(file.patch.splitlines()) - 1)
+                )
+                
                 pull_request.create_issue_comment(f"ChatGPT's review about `{file.filename}` file:\n {response['choices'][0]['message']['content']}")
             except Exception as ex:
                 message = f"🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`"
