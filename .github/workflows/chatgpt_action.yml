@@ -1,0 +1,23 @@
+name: ChatGPT Code Review
+
+on:
+  pull_request:
+    branches: [ "main", "develop" ]
+    types: [ opened, synchronized ]
+
+  workflow_dispatch:
+
+jobs:
+  code_review_job:
+    runs-on: ubuntu-latest
+    name: ChatGPT reviewer
+    steps:
+      - name: ChatGPT reviewer code
+        uses: fitomad/github-chatgpt-integration@main
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          github-token: ${{ secrets.GH_TOKEN }}
+          github-pr-id: ${{ github.event.number }}
+          openai-engine: "gpt-3.5-turbo"
+          openai-temperature: 0.0
+          openai-max-tokens: 4096 
