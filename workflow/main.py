@@ -42,12 +42,12 @@ def code_review(parameters: dict):
                     temperature=parameters['temperature']
                 )
                 
-                pull_request.create_review_comment(
-                    body = "Este es un comentario automático en una línea específica del PR.",
-                    commit_id = commit.sha,
-                    path = file.filename,
-                    position = random.randint(1, len(file.patch.splitlines()) - 1)
-                )
+                # pull_request.create_review_comment(
+                #     body = "Este es un comentario automático en una línea específica del PR.",
+                #     commit_id = commit.sha,
+                #     path = file.filename,
+                #     position = random.randint(1, 5)
+                # )
                 
                 pull_request.create_issue_comment(f"ChatGPT's review about `{file.filename}` file:\n {response['choices'][0]['message']['content']}")
             except Exception as ex:
