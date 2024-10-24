@@ -25,7 +25,7 @@ jobs:
 
       - name: Analyze PR comments
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           python scripts/update_jsonl_with_comments.py
