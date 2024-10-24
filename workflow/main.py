@@ -2,6 +2,7 @@ import argparse
 import openai
 import os
 import requests
+import yaml
 from github import Github, PullRequest
 
 github_client: Github
@@ -40,12 +41,15 @@ def code_review(parameters: dict):
                 message = f"🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`"
                 pull_request.create_issue_comment(message)
 
-
-def make_prompt(dev_lang: str) -> str:
-    review_prompt = f"Review this {dev_lang} code for potential bugs or Code Smells and suggest improvements. Generate your response in markdown format"
+def make_prompt() -> str:
+    review_prompt = load_prompt_from_yaml('parameters.yml')
 
     return review_prompt
 
+def load_prompt_from_yaml(file_path: str) -> str:
+    with open(file_path, 'r') as file:
+        data = yaml.safe_load(file)
+        return data['parameters']['prompt']
 
 def make_resume_for_pull_request(pr: PullRequest) -> str:
     comment = f"""
@@ -80,7 +84,7 @@ if __name__ == "__main__":
 
     review_parameters = {
         "pr_id" : int(args.github_pr_id),
-        "prompt" : make_prompt(dev_lang=args.dev_lang),
+        "prompt" : make_prompt(),
         "temperature" : float(args.openai_temperature),
         "max_tokens" : int(args.openai_max_tokens),
         "model" : args.openai_engine
