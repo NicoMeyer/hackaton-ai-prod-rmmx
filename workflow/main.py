@@ -46,7 +46,7 @@ def code_review(parameters: dict):
             filename = file.filename
             content = repo.get_contents(filename, ref=commit.sha).decoded_content
 
-            original = {}
+            original = "Original"
 
             try:
                 json_response = openai.ChatCompletion.create(
@@ -61,7 +61,7 @@ def code_review(parameters: dict):
                     temperature=parameters['temperature']
                 )
 
-                original = json_response
+                original = json_response.copy()
 
                 # Extrayendo respuestas estructuradas en cada cambio
                 for review in json_response["choices"]:
