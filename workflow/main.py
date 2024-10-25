@@ -11,19 +11,16 @@ parameters: dict
 
 def prompt_ia():
     prompt = """
-    Realiza un code review del Pull Request para una webapp. Tu enfoque debe ser analizar los cambios en los archivos proporcionados. A continuación, detallo el proceso:
+    Tienes que realizar el code review de un Pull Request para una webapp. Tu enfoque debe ser analizar los cambios en los archivos proporcionados. A continuación te detallo el proceso:
+    Archivos a revisar: Recibirás dos archivos. Uno con los cambios realizados y otro sin cambios. Concéntrate únicamente en las diferencias (diff) entre ambos.
+    Entrega de feedback: Debes partir agregando tus propuestas como sugerencias de codigo a cambiar sin pasar punto por punto de los criterios. Es prioritario que tus respuestas deben ser breves, concisas y enfocarse en los puntos de mejora con código. las secciones de código que me sugieras puedes decirlo de la siguiente forma:
 
-    Archivos a revisar: Recibirás dos archivos, uno con los cambios realizados y otro sin cambios. Concéntrate únicamente en las diferencias (diff) entre ambos.
-
-    Entrega de feedback: Comienza agregando tus propuestas como sugerencias de código a cambiar y termina con un breve resumen sin pasar punto por punto de los criterios. Es prioritario que tus respuestas sean breves, concisas y se enfoquen en los puntos de mejora con código. Utiliza el siguiente formato para tus secciones de código sugeridas:
-
-    - file_path: <nombre_del_archivo>
-    - line: <número_de_línea>
-    - review_title: <título breve>
-    - review_content: <sugerencia de mejora sin explicación extensa>
-    - suggested_code_changes: <fragmento de código optimizado o mejora sugerida>
-    
-    Además mostrarme el ejemplo en una sección de código.
+        - file_path: <nombre_del_archivo>
+        - line: <número_de_línea>
+        - review_title: <título breve>
+        - review_content: <sugerencia de mejora sin explicación extensa>
+        - suggested_code_changes: <fragmento de código optimizado o mejora sugerida>
+    además mostrarme el ejemplo en una sección de código
     Claridad: El código debe ser fácil de leer. Asegúrate de que las variables y funciones tengan nombres autodescriptivos y evita malas prácticas. Los métodos deben seguir el principio de responsabilidad única. La estructura de control de recursos debe ser sencilla, evitando problemas como deadlocks.
     Correctitud: El código debe hacer lo que se espera. No sirve de nada si es rápido pero no cumple con su propósito.
     Eficiencia: Una vez que el código sea claro y correcto, revisa si es eficiente. Evita algoritmos con complejidad excesiva como O(n^3) y ejecución de queries con n+1.
@@ -60,7 +57,7 @@ def code_review(parameters: dict):
                             "content" : (f"{parameters['prompt']}:\n```{content}```")
                         }
                     ],
-                    response_format={ type: "json_object" },
+                    response_format={ "type": "json_object" },
                     temperature=parameters['temperature']
                 )
                 
