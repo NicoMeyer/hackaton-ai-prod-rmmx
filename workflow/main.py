@@ -45,7 +45,7 @@ def code_review(parameters: dict):
                 
                 pull_request.create_review_comment(
                     body = "Este es un comentario automático en una línea específica del PR.",
-                    commit_id = commit.sha,
+                    commit = commit,
                     path = file.filename,
                     line = 3
                 )
