@@ -74,8 +74,14 @@ def code_review(parameters: dict):
                     body = review["message"]["content"]
                     body = json.loads(body)
 
+                    commented_body = f"### {body['review_title']}\n{body['review_content']}\n"
+
+                    suggested_code = body['suggested_code_changes']
+                    if suggested_code != "":
+                        commented_body += f"```{body['suggested_code_changes']}```"
+
                     pull_request.create_review_comment(
-                        body = f"### {body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
+                        body = commented_body,
                         commit = commit,
                         path = filename,
                         line = body['line']
