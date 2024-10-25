@@ -69,11 +69,13 @@ def code_review(parameters: dict):
                     body = json.loads(body)
 
                     pull_request.create_review_comment(
-                        body = f"Linea: {body['line']}###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
+                        body = f"Comentario",
                         commit = commit,
                         path = body["file_path"],
-                        line = 1
+                        line = body["line"]
                     )
+
+                    # body = f"Linea: {body['line']}###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
 
             except Exception as ex:
                 message = f"{original} 🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`\n{traceback.format_exc()}"
