@@ -37,9 +37,6 @@ def code_review(parameters: dict):
     repo = github_client.get_repo(os.getenv('GITHUB_REPOSITORY'))   
     pull_request = repo.get_pull(parameters["pr_id"])
 
-    resume = make_resume_for_pull_request(pr=pull_request)
-    pull_request.create_issue_comment(resume)
-
     commits = pull_request.get_commits()
 
     for commit in commits:
@@ -68,13 +65,12 @@ def code_review(parameters: dict):
                     body = json.loads(body)
 
                     pull_request.create_review_comment(
-                        body = f"### Título: {body['review_title']}\nComentario: {body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
+                        body = f"Linea: {body['line']}\n###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
                         commit = commit,
                         path = body["file_path"],
                         line = body["line"]
                     )
-                
-                # pull_request.create_issue_comment(f"ChatGPT's review about `{file.filename}` file:\n {json_response['choices'][0]['message']['content']}")
+
             except Exception as ex:
                 message = f"🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`\n{traceback.format_exc()}"
                 pull_request.create_issue_comment(message)
@@ -83,26 +79,6 @@ def make_prompt() -> str:
     review_prompt = prompt_ia()
 
     return review_prompt
-
-def load_prompt_from_yaml(file_path: str) -> str:
-    with open(file_path, 'r') as file:
-        data = yaml.safe_load(file)
-        return data['parameters']['prompt']
-
-def make_resume_for_pull_request(pr: PullRequest) -> str:
-    comment = f"""
-    Starting review process for this pull request send by **{pr.user.name}**
-    **Commits** in this pull request: {pr.commits}
-
-    **Additions**: {pr.additions}
-    **Changed** files: {pr.changed_files}
-    **Deletions**: {pr.deletions}
-    """
-
-    comment = comment.format(length='multi-line', ordinal='second')
-
-    return comment
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
