@@ -65,14 +65,14 @@ def code_review(parameters: dict):
 
                 # Extrayendo respuestas estructuradas en cada cambio
                 for review in json_response["choices"]:
-                    body = review["message"]["content"].decode('utf-8')
+                    body = review["message"]["content"]
                     body = json.loads(body)
 
                     pull_request.create_review_comment(
                         body = f"Linea: {body['line']}###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
                         commit = commit,
                         path = body["file_path"],
-                        line = body["line"]
+                        line = 1
                     )
 
             except Exception as ex:
