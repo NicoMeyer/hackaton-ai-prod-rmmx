@@ -76,7 +76,7 @@ def code_review(parameters: dict):
 
                     commented_body = f"{body['review_content']}\n"
 
-                    suggested_code = body['suggested_code_changes']
+                    suggested_code = body['suggested_code_changes'].strip()
                     if suggested_code != "":
                         commented_body += f"```{body['suggested_code_changes']}```"
 
