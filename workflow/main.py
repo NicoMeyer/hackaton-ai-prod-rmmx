@@ -65,7 +65,7 @@ def code_review(parameters: dict):
 
                 # Extrayendo respuestas estructuradas en cada cambio
                 for review in json_response["choices"]:
-                    body = review["message"]["content"]
+                    body = review["message"]["content"].decode('utf-8')
                     body = json.loads(body)
 
                     pull_request.create_review_comment(
