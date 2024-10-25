@@ -74,7 +74,7 @@ def code_review(parameters: dict):
                     body = review["message"]["content"]
                     body = json.loads(body)
 
-                    commented_body = f"### {body['review_title']}\n{body['review_content']}\n"
+                    commented_body = f"{body['review_content']}\n"
 
                     suggested_code = body['suggested_code_changes']
                     if suggested_code != "":
