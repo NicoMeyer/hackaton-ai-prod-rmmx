@@ -2,7 +2,6 @@ import argparse
 import openai
 import os
 import requests
-import yaml
 import random
 import traceback
 from github import Github, PullRequest
@@ -23,8 +22,15 @@ def prompt_ia():
     - review_title: <título breve>
     - review_content: <sugerencia de mejora sin explicación extensa>
     - suggested_code_changes: <fragmento de código optimizado o mejora sugerida>
-
-    Responde en el formato JSON usando las claves file_path, line, review_title, review_content y suggested_code_changes.
+    
+    Además mostrarme el ejemplo en una sección de código.
+    Claridad: El código debe ser fácil de leer. Asegúrate de que las variables y funciones tengan nombres autodescriptivos y evita malas prácticas. Los métodos deben seguir el principio de responsabilidad única. La estructura de control de recursos debe ser sencilla, evitando problemas como deadlocks.
+    Correctitud: El código debe hacer lo que se espera. No sirve de nada si es rápido pero no cumple con su propósito.
+    Eficiencia: Una vez que el código sea claro y correcto, revisa si es eficiente. Evita algoritmos con complejidad excesiva como O(n^3) y ejecución de queries con n+1.
+    Flexibilidad: Revisa si el código es desacoplado y flexible. Puede ser útil para futuros cambios.
+    Seguridad: Finalmente, asegúrate de que el código no tenga vulnerabilidades, como SQL Injection o uso de variables de ambiente.
+    Guía de estilo: Al revisar el código, sigue los principios SOLID y guíate por las guidelines de Shopify. Contamos con herramientas automáticas como RuboCop para validar el código, pero tu análisis debe ser manual y detallado. Puedes consultar las guidelines de estilo aquí: https://ruby-style-guide.shopify.dev/
+    Responde en el formato json usando las claves file_path, line, review_title, review_content y suggested_code_changes.
     """ 
 
     return prompt
@@ -71,7 +77,7 @@ def code_review(parameters: dict):
                 pull_request.create_issue_comment(message)
 
 def make_prompt() -> str:
-    review_prompt = prompt_ia
+    review_prompt = prompt_ia()
 
     return review_prompt
 
