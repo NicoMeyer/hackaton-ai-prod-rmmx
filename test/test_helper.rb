@@ -2,7 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative "../config/environment"
 require "rails/test_help"
 
-# Comentario de prueba número 6
+# Comentario de prueba número 7
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
