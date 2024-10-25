@@ -4,6 +4,7 @@ import os
 import requests
 import yaml
 import random
+import traceback
 from github import Github, PullRequest
 
 github_client: Github
@@ -42,16 +43,16 @@ def code_review(parameters: dict):
                     temperature=parameters['temperature']
                 )
                 
-                # pull_request.create_review_comment(
-                #     body = "Este es un comentario automático en una línea específica del PR.",
-                #     commit_id = commit.sha,
-                #     path = file.filename,
-                #     position = random.randint(1, 5)
-                # )
+                pull_request.create_review_comment(
+                    body = "Este es un comentario automático en una línea específica del PR.",
+                    commit_id = commit.sha,
+                    path = file.filename,
+                    line = 3
+                )
                 
                 pull_request.create_issue_comment(f"ChatGPT's review about `{file.filename}` file:\n {response['choices'][0]['message']['content']}")
             except Exception as ex:
-                message = f"🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`"
+                message = f"🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`\n{traceback.format_exc()}"
                 pull_request.create_issue_comment(message)
 
 def make_prompt() -> str:
