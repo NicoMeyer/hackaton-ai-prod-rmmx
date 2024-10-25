@@ -16,6 +16,11 @@ El modelo usado para revisar los PRs es un modelo entrenado usado fine-tuning. S
 
 Para seguir mejorando el modelo se agregó una segunda github action que corre el script `scripts/update_jsonl_with_comments.py` cada vez que un PR es mergeado. Este script toma todos los comentarios con 👍 y 👎 y los agrega en el archivo `comments.jsonl`. Agrega la diff como input y el comentario como output, agregando si es válido o no dependiendo del thumbs. Este archivo, `comments.jsonl`, puede ser utilizado para seguir entrenando al modelo.
 
+## Costos estimados
+
+![Costos estimados](https://raw.githubusercontent.com/NicoMeyer/hackaton-ai-prod-rmmx/refs/heads/main/public/costos.png)
+
+
 ## 🚀 Posibles mejoras
 
 - Automatizar el fine tuning cada cierto tiempo.
