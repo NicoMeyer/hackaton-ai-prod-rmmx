@@ -66,7 +66,7 @@ def code_review(parameters: dict):
                     body = review["message"]["content"]
 
                     pull_request.create_review_comment(
-                        body = f"Archivo: {body["file_path"]}\nLínea: {body["line"]}\n ### Título: {body["review_title"]}\nComentario: {body["review_content"]}\nCódigo sugerido:\n```{body["suggested_code_changes"]}```",
+                        body = f"### Título: {body['review_title']}\nComentario: {body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
                         commit = commit,
                         path = body["file_path"],
                         line = body["line"]
