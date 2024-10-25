@@ -1,24 +1,26 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Repositorio del proyecto creado para la Hackaton AI 2024 de Buk por el equipo de Remu México.
 
-Things you may want to cover:
+## 🤖 PR reviewer
 
-* Ruby version
+Se desarrolló un PR reviewer basado en comentarios de los desarrolladores del equipo.
 
-* System dependencies
+### ¿Cómo funciona?
 
-* Configuration
+Crear un PR y automáticamente se ejecutará una github action, que corre el script `workflow/main.py`, que revisará el código y agregará comentarios a este.
 
-* Database creation
+### Fine tuning y mejoras al modelo
 
-* Database initialization
+El modelo usado para revisar los PRs es un modelo entrenado usado fine-tuning. Se entrenó el modelo gpt-4o-2024-08-06 con data de más de 3000 comentarios de PRs 🇲🇽 anteriores.
 
-* How to run the test suite
+Para seguir mejorando el modelo se agregó una segunda github action que corre el script `scripts/update_jsonl_with_comments.py` cada vez que un PR es mergeado. Este script toma todos los comentarios con 👍 y 👎 y los agrega en el archivo `comments.jsonl`. Agrega la diff como input y el comentario como output, agregando si es válido o no dependiendo del thumbs. Este archivo, `comments.jsonl`, puede ser utilizado para seguir entrenando al modelo.
 
-* Services (job queues, cache servers, search engines, etc.)
+## 🚀 Posibles mejoras
 
-* Deployment instructions
+- Automatizar el fine tuning cada cierto tiempo.
+- Permitir responder los comentarios automatizados y que la IA responda a esto.
 
-* ...
+## 🌮🌮 Team
+
+[paul](@paulBukDev) | [pancho](@fbarrosbuk) | [elvis](@okk-o) | [sofi](@sofiapavlovic) | [hector](@hepem) | [diego mart](@diegoamartinez) | [cusi](@gastoncusimano) | [nico](@nicomeyer) | [diego moya](@godiemp) | [rodrigo](@rgevert) | [dani](@daquiroz) | [yisus](jovalles21)
