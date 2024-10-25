@@ -2,6 +2,7 @@ import argparse
 import openai
 import os
 import requests
+import json
 import random
 import traceback
 from github import Github, PullRequest
@@ -64,6 +65,7 @@ def code_review(parameters: dict):
                 # Extrayendo respuestas estructuradas en cada cambio
                 for review in json_response["choices"]:
                     body = review["message"]["content"]
+                    body = json.loads(body)
 
                     pull_request.create_review_comment(
                         body = f"### Título: {body['review_title']}\nComentario: {body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
