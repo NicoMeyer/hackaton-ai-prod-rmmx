@@ -20,11 +20,17 @@ Para seguir mejorando el modelo se agregó una segunda github action que corre e
 
 ![Costos estimados](https://raw.githubusercontent.com/NicoMeyer/hackaton-ai-prod-rmmx/refs/heads/main/public/costos.png)
 
+*Todos los precios están en dólares.
 
 ## 🚀 Posibles mejoras
 
 - Automatizar el fine tuning cada cierto tiempo.
 - Permitir responder los comentarios automatizados y que la IA responda a esto.
+- Mayor conocimiento de la tecnología usada en Buk.
+- Mayor conocimiento del negocio.
+- Tener modelos especializados para distintos problemas/módulos.
+- Conexión con Jira para que tenga el contexto de las tarjetas.
+- Acceso a los documentos de negocio.
 
 ## 🌮🌮 Team
 
