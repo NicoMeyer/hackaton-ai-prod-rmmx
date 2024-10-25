@@ -49,7 +49,7 @@ def code_review(parameters: dict):
             content = repo.get_contents(filename, ref=commit.sha).decoded_content
 
             try:
-                response = openai.ChatCompletion.create(
+                json_response = openai.ChatCompletion.create(
                     model=parameters['model'],
                     messages=[
                         {
@@ -60,15 +60,19 @@ def code_review(parameters: dict):
                     response_format={ "type": "json_object" },
                     temperature=parameters['temperature']
                 )
+
+                # Extrayendo respuestas estructuradas en cada cambio
+                for review in json_response["choices"]:
+                    body = review["message"]["content"]
+
+                    pull_request.create_review_comment(
+                        body = f"Archivo: {body["file_path"]}\nLínea: {body["line"]}\n ### Título: {body["review_title"]}\nComentario: {body["review_content"]}\nCódigo sugerido:\n```{body["suggested_code_changes"]}```",
+                        commit = commit,
+                        path = body["file_path"],
+                        line = body["line"]
+                    )
                 
-                pull_request.create_review_comment(
-                    body = "Este es un comentario automático en una línea específica del PR.",
-                    commit = commit,
-                    path = file.filename,
-                    line = 3
-                )
-                
-                pull_request.create_issue_comment(f"ChatGPT's review about `{file.filename}` file:\n {response['choices'][0]['message']['content']}")
+                # pull_request.create_issue_comment(f"ChatGPT's review about `{file.filename}` file:\n {json_response['choices'][0]['message']['content']}")
             except Exception as ex:
                 message = f"🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`\n{traceback.format_exc()}"
                 pull_request.create_issue_comment(message)
