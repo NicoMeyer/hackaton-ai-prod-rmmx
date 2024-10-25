@@ -46,6 +46,8 @@ def code_review(parameters: dict):
             filename = file.filename
             content = repo.get_contents(filename, ref=commit.sha).decoded_content
 
+            original = {}
+
             try:
                 json_response = openai.ChatCompletion.create(
                     model=parameters['model'],
@@ -59,20 +61,22 @@ def code_review(parameters: dict):
                     temperature=parameters['temperature']
                 )
 
+                original = json_response
+
                 # Extrayendo respuestas estructuradas en cada cambio
                 for review in json_response["choices"]:
                     body = review["message"]["content"]
                     body = json.loads(body)
 
                     pull_request.create_review_comment(
-                        body = f"Linea: {body['line']}\n###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
+                        body = f"Linea: {body['line']}###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
                         commit = commit,
                         path = body["file_path"],
                         line = body["line"]
                     )
 
             except Exception as ex:
-                message = f"🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`\n{traceback.format_exc()}"
+                message = f"{original} 🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`\n{traceback.format_exc()}"
                 pull_request.create_issue_comment(message)
 
 def make_prompt() -> str:
