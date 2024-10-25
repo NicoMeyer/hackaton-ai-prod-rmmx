@@ -40,6 +40,7 @@ def code_review(parameters: dict):
                             "content" : (f"{parameters['prompt']}:\n```{content}```")
                         }
                     ],
+                    response_format={ type: "json_object" },
                     temperature=parameters['temperature']
                 )
                 
