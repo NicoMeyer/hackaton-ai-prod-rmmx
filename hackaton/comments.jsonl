@@ -1,2 +1,0 @@
-{"prompt": "@@ -1,13 +0,0 @@\n-class LiquidationsController < ApplicationController\n-  def create\n-    @liquidation = Liquidation.new(liquidation_params)\n-    @liquidation.save", "completion": "Comentario válido: comment 1"}
-{"prompt": "@@ -1,13 +0,0 @@\n-class LiquidationsController < ApplicationController\n-  def create\n-    @liquidation = Liquidation.new(liquidation_params)\n-    @liquidation.save\n-    redirect_to @liquidation\n-  end\n-\n-  private", "completion": "Comentario inválido: comment 2"}

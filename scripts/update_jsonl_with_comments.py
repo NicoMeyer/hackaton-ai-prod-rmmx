@@ -55,8 +55,10 @@ def update_jsonl_file(comments):
             # Solo agregar comentarios con reacciones válidas o inválidas
             if analysis_result and diff_hunk and body:
                 entry = {
-                    "prompt": diff_hunk,  # Usar diff_hunk como prompt
-                    "completion": f"{analysis_result}: {body}"  # Usar body como parte de completion
+                    "messages": [
+                        {"role": "user", "content": diff_hunk},  # Usar diff_hunk como mensaje del usuario
+                        {"role": "assistant", "content": f"{analysis_result}: {body}"}  # Usar body como respuesta del asistente
+                    ]
                 }
                 # Escribir el JSON con ensure_ascii=False para que no escape caracteres especiales
                 f.write(json.dumps(entry, ensure_ascii=False) + "\n")
