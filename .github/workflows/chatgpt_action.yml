@@ -22,6 +22,6 @@ jobs:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           github-token: ${{ secrets.GH_TOKEN }}
           github-pr-id: ${{ github.event.number }}
-          openai-engine: "ft:gpt-4o-2024-08-06:buk::AMF99apJ"
+          openai-engine: "ft:gpt-4o-2024-08-06:buk::AMJOLSOt"
           openai-temperature: 0.0
           openai-max-tokens: 4096 
