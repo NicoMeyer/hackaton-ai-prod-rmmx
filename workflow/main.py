@@ -29,6 +29,16 @@ def prompt_ia():
     Seguridad: Finalmente, asegúrate de que el código no tenga vulnerabilidades, como SQL Injection o uso de variables de ambiente.
     Guía de estilo: Al revisar el código, sigue los principios SOLID y guíate por las guidelines de Shopify. Contamos con herramientas automáticas como RuboCop para validar el código, pero tu análisis debe ser manual y detallado. Puedes consultar las guidelines de estilo aquí: https://ruby-style-guide.shopify.dev/
     Responde en el formato json usando las claves file_path, line, review_title, review_content y suggested_code_changes.
+    Ejemplo:
+    ```json
+    {
+    "file_path": "app/models/user.rb",
+    "line": 42,
+    "review_title": "Uso de variable no autodescriptiva",
+    "review_content": "Renombra la variable para mayor claridad.",
+    "suggested_code_changes": "user_name = params[:name]"
+    }
+    ```
     """ 
 
     return prompt
@@ -68,14 +78,19 @@ def code_review(parameters: dict):
                     body = review["message"]["content"]
                     body = json.loads(body)
 
-                    pull_request.create_review_comment(
-                        body = f"{original}\nLinea: {body['line']}###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
-                        commit = commit,
-                        path = body["file_path"],
-                        line = body["line"]
-                    )
+                    # linea = body["line"]
+                    # try:
+                    #     linea = int(linea)
+                    #     return True
+                    # except ValueError:
+                    #     linea = 1
 
-                    # body = f"Linea: {body['line']}###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
+                    pull_request.create_review_comment(
+                        body = f"###{body['review_title']}\n{body['review_content']}\nCódigo sugerido:\n```{body['suggested_code_changes']}```",
+                        commit = commit,
+                        path = filename,
+                        line = body['line']
+                    )
 
             except Exception as ex:
                 message = f"{original} 🚨 Fail code review process for file **{filename}**.\n\n`{str(ex)}`\n{traceback.format_exc()}"
