@@ -56,7 +56,6 @@ def code_review(parameters: dict):
                 pull_request.create_issue_comment(message)
 
 def make_prompt() -> str:
-    # review_prompt = load_prompt_from_yaml('./parameters.yml')
     review_prompt = prompt_ia
 
     return review_prompt
